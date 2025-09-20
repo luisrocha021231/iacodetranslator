@@ -8,7 +8,7 @@ export async function translateRequest(fromLang, toLang, code) {
     content: code.trim(),
   };
 
-  const TRANSLATOR_ENDPOINT_URL = import.meta.env.TRANSLATOR_ENDPOINT_URL;
+  const TRANSLATOR_ENDPOINT_URL = import.meta.env.VITE_TRANSLATOR_ENDPOINT_URL;
 
   try {
     const response = await fetch(TRANSLATOR_ENDPOINT_URL, {
