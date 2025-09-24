@@ -3,9 +3,9 @@ export async function translateRequest(fromLang, toLang, code) {
   if (!code.trim()) return { result: "" };
 
   const payload = {
-    originalLanguage: fromLang,
+    sourceLanguage: fromLang,
     targetLanguage: toLang,
-    content: code.trim(),
+    codeSnippet: code.trim(),
   };
 
   const TRANSLATOR_ENDPOINT_URL = import.meta.env.VITE_TRANSLATOR_ENDPOINT_URL;
@@ -20,8 +20,9 @@ export async function translateRequest(fromLang, toLang, code) {
     if (!response.ok) throw new Error("Error en la petición");
 
     const data = await response.json();
-    return { result: data.result || JSON.stringify(data, null, 2) };
-  } catch (err) {
-    return { result: `❌ Error: ${err.message}` };
+    return { result: data.translatedCode || data.result || JSON.stringify(data, null, 2) };
+  } catch (error) {
+    console.error("Error during translation request:", error.message);
+    return { result: `❌ Error: Al traducir el código, inténtalo de nuevo más tarde.` };
   }
 }
